@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blake Construction Services Ltd.</title>
+<meta name="referrer" content="no-referrer-when-downgrade">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://images.pexels.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,300&family=Barlow+Condensed:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--black:#080808;--dark:#111;--mid:#181818;--card:#1c1c1c;--gold:#c8922a;--gold-l:#e8b84b;--gold-d:#8a6118;--white:#f0ece4;--grey:#7a7a72;--lg:#b8b8a8;--fd:'Bebas Neue',sans-serif;--fb:'Barlow',sans-serif;--fc:'Barlow Condensed',sans-serif}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;cursor:none}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+
+/* CURSOR */
+#cur{position:fixed;top:0;left:0;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s}
+#cur-r{position:fixed;top:0;left:0;width:38px;height:38px;border:1.5px solid rgba(200,146,42,.45);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s}
+body.ch #cur{width:18px;height:18px}body.ch #cur-r{width:56px;height:56px;border-color:var(--gold)}
+@media(max-width:768px){#cur,#cur-r{display:none}}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--black);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.ld-logo{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,8vw,84px);letter-spacing:.06em;line-height:1;overflow:hidden}
+.ld-logo span{display:inline-block;transform:translateY(110%);animation:sup .75s cubic-bezier(.16,1,.3,1) forwards}
+.ld-logo span:nth-child(1){animation-delay:.05s}.ld-logo span:nth-child(2){animation-delay:.14s}.ld-logo span:nth-child(3){animation-delay:.23s}
+.ld-sub{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-top:10px;opacity:0;animation:fin .5s ease .9s forwards}
+.ld-pct{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.3em;color:var(--grey);margin-top:24px;opacity:0;animation:fin .5s ease .6s forwards}
+.ld-bar{width:260px;height:2px;background:rgba(255,255,255,.06);margin-top:10px;overflow:hidden}
+.ld-fill{height:100%;width:0;background:var(--gold);animation:lb 2.4s cubic-bezier(.25,1,.5,1) forwards}
+.ld-exc{width:130px;height:65px;margin-bottom:28px;opacity:0;animation:fin .5s ease .35s forwards}
+.arm-sw{transform-origin:62px 28px;animation:arm 1.3s ease-in-out infinite}
+@keyframes arm{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-22deg)}}
+@keyframes sup{to{transform:translateY(0)}}
+@keyframes fin{to{opacity:1}}
+@keyframes lb{0%{width:0}65%{width:72%}100%{width:100%}}
+#loader.out{animation:ldout .8s ease .2s forwards}
+@keyframes ldout{to{opacity:0;pointer-events:none}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:22px 5vw;display:flex;align-items:center;justify-content:space-between;transition:background .4s,padding .4s}
+nav.scrolled{background:rgba(8,8,8,.93);backdrop-filter:blur(18px);padding:14px 5vw;border-bottom:1px solid rgba(200,146,42,.12)}
+.n-logo{display:flex;align-items:center;gap:11px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.12em}
+.n-hex{width:34px;height:34px;background:var(--gold);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:var(--black);flex-shrink:0}
+.n-links{display:flex;align-items:center;gap:28px;list-style:none}
+.n-links a{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--lg);position:relative;transition:color .2s}
+.n-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.n-links a:hover{color:var(--gold)}.n-links a:hover::after{width:100%}
+.n-cta{background:var(--gold)!important;color:var(--black)!important;padding:9px 22px!important;font-weight:700!important;transition:background .2s,transform .2s!important}
+.n-cta:hover{background:var(--gold-l)!important;transform:translateY(-1px)}
+.n-cta::after{display:none!important}
+.n-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.n-ham span{display:block;width:26px;height:2px;background:var(--white);transition:all .3s}
+.n-ham.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}.n-ham.open span:nth-child(2){opacity:0}.n-ham.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mob-menu{position:fixed;inset:0;z-index:999;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:0;pointer-events:none;transition:opacity .35s}
+.mob-menu.open{opacity:1;pointer-events:all}
+.mob-menu a{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,10vw,80px);color:var(--white);letter-spacing:.04em;line-height:1.1;transform:translateX(-40px);opacity:0;transition:color .2s,transform .35s,opacity .35s}
+.mob-menu.open a{transform:translateX(0);opacity:1}
+.mob-menu.open a:nth-child(1){transition-delay:.04s}.mob-menu.open a:nth-child(2){transition-delay:.08s}.mob-menu.open a:nth-child(3){transition-delay:.12s}.mob-menu.open a:nth-child(4){transition-delay:.16s}.mob-menu.open a:nth-child(5){transition-delay:.20s}.mob-menu.open a:nth-child(6){transition-delay:.24s}.mob-menu.open a:nth-child(7){transition-delay:.28s}
+.mob-menu a:hover{color:var(--gold)}
+.mob-close{position:absolute;top:24px;right:5vw;font-size:34px;color:var(--white);background:none;border:none;cursor:pointer}
+
+/* PAGE */
+.page{display:none}.page.active{display:block}
+
+/* SHARED */
+.sec{padding:100px 5vw}
+.stag{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.sh2{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,6vw,96px);line-height:.92;letter-spacing:.03em}
+.sh2 em{color:var(--gold);font-style:normal}
+.btn-g{background:var(--gold);color:var(--black);padding:14px 32px;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.26em;font-weight:700;text-transform:uppercase;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:background .22s,transform .22s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.btn-g:hover{background:var(--gold-l);transform:translateY(-2px)}
+.btn-o{background:transparent;color:var(--white);padding:13px 30px;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.26em;font-weight:600;text-transform:uppercase;border:1px solid rgba(255,255,255,.25);cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:border-color .22s,color .22s,transform .22s}
+.btn-o:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.rv{opacity:0;transform:translateY(44px);transition:opacity .75s ease,transform .75s ease}
+.rvl{opacity:0;transform:translateX(-44px);transition:opacity .75s,transform .75s}
+.rvr{opacity:0;transform:translateX(44px);transition:opacity .75s,transform .75s}
+.rv.vis,.rvl.vis,.rvr.vis{opacity:1;transform:none}
+
+/* HERO */
+#hero{position:relative;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden}
+.h-bg{position:absolute;inset:0;will-change:transform}
+.h-bg img{width:100%;height:100%;object-fit:cover;object-position:center 40%}
+.h-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(8,8,8,.88) 0%,rgba(8,8,8,.6) 55%,rgba(8,8,8,.28) 100%)}
+.h-grain{position:absolute;inset:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.h-content{position:relative;z-index:2;padding:0 5vw;max-width:860px}
+.h-tag{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-bottom:20px;opacity:0;transform:translateY(18px);animation:rup .7s ease .3s forwards}
+.h-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,11vw,140px);line-height:.88;letter-spacing:.02em}
+.h-line{display:block;overflow:hidden}
+.h-line span{display:block;transform:translateY(108%);animation:sup .85s cubic-bezier(.16,1,.3,1) forwards}
+.h-line:nth-child(1) span{animation-delay:.38s}.h-line:nth-child(2) span{animation-delay:.52s;color:var(--gold)}.h-line:nth-child(3) span{animation-delay:.66s}
+.h-sub{font-size:17px;font-weight:300;color:var(--lg);line-height:1.75;max-width:460px;margin-top:26px;opacity:0;animation:rup .65s ease .98s forwards}
+.h-btns{display:flex;gap:14px;flex-wrap:wrap;margin-top:38px;opacity:0;animation:rup .65s ease 1.1s forwards}
+.h-stats{position:absolute;bottom:44px;right:5vw;z-index:2;display:flex;gap:3px;opacity:0;animation:rup .65s ease 1.3s forwards}
+.h-stat{background:rgba(8,8,8,.6);backdrop-filter:blur(12px);border:1px solid rgba(200,146,42,.2);padding:18px 26px;text-align:center}
+.h-sn{font-family:'Bebas Neue',sans-serif;font-size:46px;color:var(--gold);line-height:1}
+.h-sl{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--grey);margin-top:3px}
+.h-scroll{position:absolute;bottom:44px;left:5vw;z-index:2;display:flex;align-items:center;gap:12px;opacity:0;animation:rup .65s ease 1.5s forwards}
+.h-scl{width:44px;height:1px;background:var(--gold);animation:spulse 2s ease-in-out infinite}
+.h-sct{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--grey)}
+@keyframes spulse{0%,100%{opacity:1;width:44px}50%{opacity:.3;width:22px}}
+@keyframes rup{to{opacity:1;transform:none}}
+
+/* TICKER */
+.ticker{background:var(--gold);overflow:hidden;white-space:nowrap;padding:11px 0}
+.t-inner{display:inline-flex;gap:60px;animation:tick 28s linear infinite}
+.t-inner span{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:.3em;font-weight:700;text-transform:uppercase;color:var(--black)}
+.t-dot{display:inline-block;width:5px;height:5px;background:rgba(0,0,0,.35);border-radius:50%;vertical-align:middle;margin-right:60px}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ABOUT STRIP */
+#about-strip{background:var(--dark);display:grid;grid-template-columns:1fr 1fr;min-height:580px}
+.as-img{position:relative;overflow:hidden}
+.as-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+.as-img:hover img{transform:scale(1.04)}
+.as-img-fade{position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,var(--dark) 100%)}
+.as-txt{padding:80px 60px;display:flex;flex-direction:column;justify-content:center}
+.as-txt p{font-size:17px;font-weight:300;line-height:1.8;color:var(--lg);margin-bottom:18px}
+.as-txt p strong{color:var(--white);font-weight:600}
+.as-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.as-tag{background:rgba(200,146,42,.1);border:1px solid rgba(200,146,42,.25);padding:7px 15px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+
+/* COUNTERS */
+.counters{background:var(--gold);padding:64px 5vw;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+.cnt-n{font-family:'Bebas Neue',sans-serif;font-size:68px;color:var(--black);line-height:1}
+.cnt-n sup{font-size:36px;vertical-align:super}
+.cnt-l{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:rgba(0,0,0,.55);margin-top:5px}
+
+/* SERVICES */
+#svc-sec{background:var(--black)}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:54px}
+.svc-card{background:var(--card);padding:38px 34px;position:relative;overflow:hidden;cursor:default;transition:background .3s}
+.svc-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--gold);transition:height .4s}
+.svc-card:hover::before{height:100%}.svc-card:hover{background:#222}
+.svc-num{font-family:'Bebas Neue',sans-serif;font-size:54px;color:rgba(200,146,42,.12);line-height:1;transition:color .3s}
+.svc-card:hover .svc-num{color:rgba(200,146,42,.3)}
+.svc-title{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--white);margin:10px 0 9px}
+.svc-card p{font-size:14px;color:var(--grey);line-height:1.7}
+.svc-arr{display:flex;align-items:center;gap:8px;margin-top:18px;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:0;transform:translateX(-12px);transition:opacity .3s,transform .3s}
+.svc-card:hover .svc-arr{opacity:1;transform:none}
+
+/* IMAGE MARQUEE */
+.img-marquee{overflow:hidden;height:280px;background:var(--dark);position:relative}
+.img-m-inner{display:flex;gap:6px;height:100%;animation:marquee 40s linear infinite;width:max-content}
+.img-m-inner:hover{animation-play-state:paused}
+.img-m-item{height:100%;width:360px;flex-shrink:0;overflow:hidden}
+.img-m-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.img-m-item:hover img{transform:scale(1.06)}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* FEATURE SPLIT */
+.feat-split{display:grid;grid-template-columns:1fr 1fr;min-height:600px;background:var(--dark)}
+.feat-split.rev{direction:rtl}.feat-split.rev>*{direction:ltr}
+.fp-img{position:relative;overflow:hidden}
+.fp-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
+.fp-img:hover img{transform:scale(1.04)}
+.fp-txt{padding:80px 60px;display:flex;flex-direction:column;justify-content:center}
+.fp-txt ul{list-style:none;margin-top:22px}
+.fp-txt li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px;color:var(--lg);display:flex;align-items:center;gap:12px}
+.fp-txt li::before{content:'▸';color:var(--gold);font-size:11px;flex-shrink:0}
+
+/* TRUST BAND */
+.trust-band{background:var(--mid);padding:80px 5vw;text-align:center}
+.trust-quote{font-family:'Barlow Condensed',sans-serif;font-size:clamp(22px,3.5vw,42px);font-weight:300;font-style:italic;color:var(--white);max-width:820px;margin:0 auto;line-height:1.5;letter-spacing:.02em}
+.trust-quote em{color:var(--gold);font-style:normal}
+.trust-attr{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--grey);margin-top:22px}
+
+/* PARALLAX CTA */
+.pb-cta{position:relative;height:400px;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+.pb-cta-bg{position:absolute;inset:-60px;background-size:cover;background-position:center;background-attachment:fixed;filter:brightness(.32)}
+.pb-cta-body{position:relative;z-index:2}
+.pb-cta-body h3{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5.5vw,78px);letter-spacing:.07em;color:var(--white);margin-bottom:14px}
+.pb-cta-body p{font-size:16px;color:var(--lg);margin-bottom:28px}
+
+/* GALLERY */
+#gal-sec{background:var(--black)}
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:44px}
+.gi{position:relative;overflow:hidden;aspect-ratio:1;cursor:pointer}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .55s cubic-bezier(.25,1,.5,1)}
+.gi:hover img{transform:scale(1.1)}
+.gi-ov{position:absolute;inset:0;background:rgba(8,8,8,.68);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.gi:hover .gi-ov{opacity:1}
+.gi-zo{width:48px;height:48px;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;transform:scale(.7);transition:transform .3s}
+.gi:hover .gi-zo{transform:scale(1)}
+.gi.wide{grid-column:span 2;aspect-ratio:2/1}
+
+/* PROCESS */
+#proc-sec{background:var(--dark)}
+.proc-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:60px;position:relative}
+.proc-steps::before{content:'';position:absolute;top:32px;left:12%;right:12%;height:1px;background:linear-gradient(to right,transparent,var(--gold-d),var(--gold),var(--gold-d),transparent);z-index:0}
+.step{text-align:center;padding:0 20px;position:relative;z-index:1}
+.step-num{width:64px;height:64px;border-radius:50%;background:var(--black);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);margin:0 auto 20px}
+.step-title{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--white);margin-bottom:10px}
+.step p{font-size:13px;color:var(--grey);line-height:1.7}
+
+/* EQUIPMENT */
+.eq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:54px}
+.eq-card{background:var(--card);border:1px solid rgba(255,255,255,.05);overflow:hidden;transition:border-color .3s,transform .4s;transform-style:preserve-3d}
+.eq-card:hover{border-color:rgba(200,146,42,.28);transform:translateY(-7px) rotateX(2deg)}
+.eq-card-img{height:210px;overflow:hidden}
+.eq-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .55s}
+.eq-card:hover .eq-card-img img{transform:scale(1.07)}
+.eq-card-body{padding:22px}
+.eq-name{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;text-transform:uppercase;color:var(--white);margin-bottom:7px}
+.eq-desc{font-size:13px;color:var(--grey);line-height:1.6}
+
+/* BEFORE/AFTER */
+.ba-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:56px}
+.ba-card{overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.ba-wrap{position:relative;height:320px;overflow:hidden;cursor:ew-resize}
+.ba-after,.ba-before{position:absolute;inset:0}
+.ba-after img,.ba-before img{width:100%;height:100%;object-fit:cover}
+.ba-before{clip-path:inset(0 50% 0 0)}
+.ba-div{position:absolute;top:0;left:50%;width:3px;height:100%;background:var(--gold);transform:translateX(-50%);z-index:4}
+.ba-hdl{position:absolute;top:50%;left:50%;width:46px;height:46px;background:var(--gold);border-radius:50%;z-index:5;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;cursor:ew-resize;user-select:none;color:var(--black);font-size:17px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.ba-lbl{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;padding:8px 14px;z-index:3}
+.ba-b{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--grey)}
+.ba-a{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.ba-cap{padding:14px 18px;font-size:13px;color:var(--grey);font-style:italic;background:var(--mid)}
+
+/* GRAVEL PITS */
+.gp-layout{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:56px}
+.gp-card{background:var(--card);border:1px solid rgba(200,146,42,.12);overflow:hidden;transition:border-color .3s}
+.gp-card:hover{border-color:rgba(200,146,42,.35)}
+.gp-img{height:250px;overflow:hidden}
+.gp-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.gp-card:hover .gp-img img{transform:scale(1.05)}
+.gp-body{padding:26px}
+.gp-name{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--gold);margin-bottom:12px}
+.gp-body p{font-size:14px;color:var(--grey);line-height:1.7;margin-bottom:14px}
+.gp-body ul{list-style:none}
+.gp-body li{font-size:13px;color:var(--lg);padding:5px 0;display:flex;align-items:center;gap:10px}
+.gp-body li::before{content:'▸';color:var(--gold);font-size:10px}
+
+/* CONTACT */
+.ct-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:56px}
+.ct-info-item{display:flex;gap:18px;align-items:flex-start;margin-bottom:32px}
+.ct-icon{width:48px;height:48px;background:rgba(200,146,42,.1);border:1px solid rgba(200,146,42,.3);display:flex;align-items:center;justify-content:center;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);flex-shrink:0;font-size:19px}
+.ct-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.ct-val{font-size:15px;color:var(--white)}
+.ct-form input,.ct-form textarea,.ct-form select{width:100%;background:var(--card);border:1px solid rgba(255,255,255,.08);color:var(--white);padding:14px 16px;font-family:'Barlow',sans-serif;font-size:14px;margin-bottom:12px;outline:none;transition:border-color .2s;appearance:none}
+.ct-form input:focus,.ct-form textarea:focus,.ct-form select:focus{border-color:var(--gold)}
+.ct-form textarea{height:130px;resize:none}
+.ct-form select option{background:var(--dark)}
+.ct-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.soc-row{display:flex;gap:10px;margin-top:24px}
+.soc-btn{width:44px;height:44px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:16px;transition:all .2s}
+.soc-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--black)}
+.map-wrap{height:340px;overflow:hidden;border:1px solid rgba(200,146,42,.18);margin-top:60px}
+.map-wrap iframe{width:100%;height:100%;border:0;filter:grayscale(65%) brightness(.9)}
+
+/* FOOTER */
+footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.06);padding:60px 5vw 28px}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.ft-brand-n{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.1em;color:var(--white);margin-bottom:12px}
+.ft-brand p{font-size:13px;color:var(--grey);line-height:1.7;max-width:280px}
+.ft-col h4{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.ft-col ul{list-style:none}
+.ft-col li{margin-bottom:9px}
+.ft-col a{color:var(--grey);font-size:13px;transition:color .2s}
+.ft-col a:hover{color:var(--gold)}
+.ft-bot{border-top:1px solid rgba(255,255,255,.06);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.ft-copy{font-size:12px;color:var(--grey)}
+.ft-copy span{color:var(--gold)}
+
+/* LIGHTBOX */
+#lb{position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.95);display:none;align-items:center;justify-content:center}
+#lb.open{display:flex}
+#lb img{max-width:92vw;max-height:82vh;object-fit:contain}
+#lb-x{position:absolute;top:26px;right:36px;font-size:36px;color:var(--white);background:none;border:none;cursor:pointer;line-height:1}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .gal-grid{grid-template-columns:repeat(3,1fr)}
+  .ft-top{grid-template-columns:1fr 1fr}
+  .proc-steps{grid-template-columns:repeat(2,1fr);gap:32px}
+  .proc-steps::before{display:none}
+  .eq-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .n-links{display:none}.n-ham{display:flex}
+  #about-strip{grid-template-columns:1fr}.as-img{min-height:300px}.as-txt{padding:50px 28px}
+  .feat-split{grid-template-columns:1fr}.feat-split.rev{direction:ltr}.fp-img{min-height:280px}.fp-txt{padding:50px 28px}
+  .svc-grid{grid-template-columns:1fr}
+  .gal-grid{grid-template-columns:repeat(2,1fr)}.gi.wide{grid-column:span 1;aspect-ratio:1}
+  .ba-grid{grid-template-columns:1fr}
+  .eq-grid{grid-template-columns:1fr}
+  .gp-layout{grid-template-columns:1fr}
+  .ct-layout{grid-template-columns:1fr}
+  .counters{grid-template-columns:repeat(2,1fr)}
+  .ft-top{grid-template-columns:1fr}
+  .h-stats{display:none}
+  nav{padding:16px 5vw}
+  .sec{padding:64px 5vw}
+  .proc-steps{grid-template-columns:1fr;gap:28px}
+  .img-marquee{height:180px}.img-m-item{width:220px}
+  .ct-2col{grid-template-columns:1fr}
+}
+@media(max-width:480px){.gal-grid{grid-template-columns:1fr 1fr}.h-btns{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-exc">
+    <svg viewBox="0 0 130 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="22" y="32" width="64" height="22" rx="2" fill="#c8922a"/>
+      <rect x="52" y="20" width="34" height="18" rx="2" fill="#e8b84b"/>
+      <rect x="56" y="23" width="26" height="10" rx="1" fill="rgba(0,0,0,.28)"/>
+      <rect x="16" y="50" width="74" height="8" rx="4" fill="#444"/>
+      <circle cx="22" cy="54" r="5" fill="#2a2a2a"/><circle cx="84" cy="54" r="5" fill="#2a2a2a"/>
+      <g class="arm-sw">
+        <line x1="52" y1="22" x2="16" y2="11" stroke="#c8922a" stroke-width="5.5" stroke-linecap="round"/>
+        <line x1="16" y1="11" x2="4" y2="30" stroke="#a87020" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M4 30 L-4 38 L9 43 L17 34 Z" fill="#c8922a"/>
+      </g>
+    </svg>
+  </div>
+  <div class="ld-logo"><span>BLAKE</span><span>&nbsp;</span><span>CONSTRUCTION</span></div>
+  <div class="ld-sub">Services Ltd. · Northumberland County, ON</div>
+  <div class="ld-pct" id="ldPct">0%</div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="n-logo" onclick="goPage('home');return false">
+    <div class="n-hex">B</div>BLAKE CONSTRUCTION
+  </a>
+  <ul class="n-links">
+    <li><a href="#" onclick="goPage('home');return false">Home</a></li>
+    <li><a href="#" onclick="goPage('about');return false">About</a></li>
+    <li><a href="#" onclick="goPage('services');return false">Services</a></li>
+    <li><a href="#" onclick="goPage('gallery');return false">Our Work</a></li>
+    <li><a href="#" onclick="goPage('equipment');return false">Equipment</a></li>
+    <li><a href="#" onclick="goPage('gravel');return false">Gravel Pits</a></li>
+    <li><a href="#" onclick="goPage('contact');return false" class="n-cta">Get a Quote</a></li>
+  </ul>
+  <div class="n-ham" id="ham" onclick="toggleMob()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-close" onclick="toggleMob()">✕</button>
+  <a href="#" onclick="goPage('home');toggleMob();return false">Home</a>
+  <a href="#" onclick="goPage('about');toggleMob();return false">About</a>
+  <a href="#" onclick="goPage('services');toggleMob();return false">Services</a>
+  <a href="#" onclick="goPage('gallery');toggleMob();return false">Our Work</a>
+  <a href="#" onclick="goPage('equipment');toggleMob();return false">Equipment</a>
+  <a href="#" onclick="goPage('gravel');toggleMob();return false">Gravel Pits</a>
+  <a href="#" onclick="goPage('contact');toggleMob();return false">Contact</a>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lb"><button id="lb-x" onclick="closeLB()">✕</button><img id="lb-img" src="" alt=""></div>
+
+<!-- ═══ HOME PAGE ═══ -->
+<div class="page active" id="page-home">
+
+  <!-- §1 HERO — Sharp Unsplash construction photo -->
+  <section id="hero">
+    <div class="h-bg" id="heroBg">
+      <img
+        src="https://images.pexels.com/photos/1078884/pexels-photo-1078884.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
+        alt="Heavy excavator at construction site"
+        loading="eager"
+      >
+    </div>
+    <div class="h-overlay"></div>
+    <div class="h-grain"></div>
+    <div class="h-content">
+      <div class="h-tag">Northumberland County · Est. 30+ Years · Fully Licensed</div>
+      <h1 class="h-h1">
+        <span class="h-line"><span>BUILDING</span></span>
+        <span class="h-line"><span>TRUST</span></span>
+        <span class="h-line"><span>WITH QUALITY</span></span>
+      </h1>
+      <p class="h-sub">Family-owned excavating &amp; full-service construction. From septic systems to armour stone retaining walls — we get it done right, every time.</p>
+      <div class="h-btns">
+        <a href="#" class="btn-g" onclick="goPage('gallery');return false">View Our Work →</a>
+        <a href="#" class="btn-o" onclick="goPage('contact');return false">Free Quote</a>
+      </div>
+    </div>
+    <div class="h-stats">
+      <div class="h-stat"><div class="h-sn">30<sup style="font-size:22px">+</sup></div><div class="h-sl">Years</div></div>
+      <div class="h-stat"><div class="h-sn">2</div><div class="h-sl">Gravel Pits</div></div>
+      <div class="h-stat"><div class="h-sn">500<sup style="font-size:22px">+</sup></div><div class="h-sl">Projects</div></div>
+    </div>
+    <div class="h-scroll"><div class="h-scl"></div><span class="h-sct">Scroll</span></div>
+  </section>
+
+  <!-- §2 TICKER -->
+  <div class="ticker">
+    <div class="t-inner">
+      <span>Full Excavating</span><span class="t-dot"></span><span>Septic Systems</span><span class="t-dot"></span><span>Armour Stone</span><span class="t-dot"></span><span>Driveways</span><span class="t-dot"></span><span>Demolition</span><span class="t-dot"></span><span>Waterproofing</span><span class="t-dot"></span><span>Gravel Pits</span><span class="t-dot"></span><span>Landscape Design</span><span class="t-dot"></span><span>Haulage</span><span class="t-dot"></span><span>Final Grade</span><span class="t-dot"></span>
+      <span>Full Excavating</span><span class="t-dot"></span><span>Septic Systems</span><span class="t-dot"></span><span>Armour Stone</span><span class="t-dot"></span><span>Driveways</span><span class="t-dot"></span><span>Demolition</span><span class="t-dot"></span><span>Waterproofing</span><span class="t-dot"></span><span>Gravel Pits</span><span class="t-dot"></span><span>Landscape Design</span><span class="t-dot"></span><span>Haulage</span><span class="t-dot"></span><span>Final Grade</span><span class="t-dot"></span>
+    </div>
+  </div>
+
+  <!-- §3 ABOUT STRIP -->
+  <div id="about-strip">
+    <div class="as-img rvl">
+      <img src="https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Aerial construction view">
+      <div class="as-img-fade"></div>
+    </div>
+    <div class="as-txt rvr">
+      <div class="stag">Who We Are</div>
+      <h2 class="sh2" style="font-size:clamp(36px,4.5vw,68px)">30+ Years of <em>Earth-Moving</em> Excellence</h2>
+      <p style="margin-top:22px">We are a <strong>family-owned and operated excavating company</strong> serving Northumberland County for over three decades. Our commitment to quality craftsmanship and honest service has built lasting trust with homeowners, builders, and developers across the region.</p>
+      <p>With two licensed gravel pits and a full fleet of modern equipment, we handle projects of any scale — residential to commercial.</p>
+      <div class="as-tags">
+        <span class="as-tag">Licensed &amp; Insured</span>
+        <span class="as-tag">2 Gravel Pits</span>
+        <span class="as-tag">Septic Licensed</span>
+        <span class="as-tag">Family Owned</span>
+      </div>
+      <div style="margin-top:30px">
+        <a href="#" class="btn-g" onclick="goPage('about');return false">Our Story →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- §4 COUNTERS -->
+  <div class="counters rv">
+    <div><div class="cnt-n">30<sup>+</sup></div><div class="cnt-l">Years in Business</div></div>
+    <div><div class="cnt-n">2</div><div class="cnt-l">Licensed Gravel Pits</div></div>
+    <div><div class="cnt-n">500<sup>+</sup></div><div class="cnt-l">Completed Projects</div></div>
+    <div><div class="cnt-n">100<sup>%</sup></div><div class="cnt-l">Family-Run Values</div></div>
+  </div>
+
+  <!-- §5 SERVICES GRID -->
+  <section id="svc-sec" class="sec">
+    <div class="stag rv">What We Do</div>
+    <h2 class="sh2 rv">Our <em>Services</em></h2>
+    <div class="svc-grid">
+      <div class="svc-card tilt rv" style="transition-delay:.00s"><div class="svc-num">01</div><div class="svc-title">Full Service Excavating</div><p>Basements, foundations, site prep — every phase of excavation handled with precision.</p><div class="svc-arr">Learn More →</div></div>
+      <div class="svc-card tilt rv" style="transition-delay:.07s"><div class="svc-num">02</div><div class="svc-title">Septic Systems</div><p>Licensed design, installation, and repair. Full permit and inspection management.</p><div class="svc-arr">Learn More →</div></div>
+      <div class="svc-card tilt rv" style="transition-delay:.14s"><div class="svc-num">03</div><div class="svc-title">Armour Stone</div><p>Retaining walls, steps, and garden features built with premium armour stone.</p><div class="svc-arr">Learn More →</div></div>
+      <div class="svc-card tilt rv" style="transition-delay:.21s"><div class="svc-num">04</div><div class="svc-title">Driveways &amp; Grading</div><p>New entrances, driveway construction, and professional final grade landscaping.</p><div class="svc-arr">Learn More →</div></div>
+      <div class="svc-card tilt rv" style="transition-delay:.28s"><div class="svc-num">05</div><div class="svc-title">Waterproofing</div><p>Foundation waterproofing solutions that keep moisture out — permanently.</p><div class="svc-arr">Learn More →</div></div>
+      <div class="svc-card tilt rv" style="transition-delay:.35s"><div class="svc-num">06</div><div class="svc-title">Haulage &amp; Aggregates</div><p>Topsoil, mulch, aggregates, and haulage from our own two licensed gravel pits.</p><div class="svc-arr">Learn More →</div></div>
+    </div>
+    <div style="text-align:center;margin-top:48px">
+      <a href="#" class="btn-o" onclick="goPage('services');return false">All 12 Services →</a>
+    </div>
+  </section>
+
+  <!-- §6 SCROLLING IMAGE MARQUEE -->
+  <div class="img-marquee">
+    <div class="img-m-inner">
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Excavator bucket"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/2097426/pexels-photo-2097426.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Construction site"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/159358/construction-site-build-construction-work-159358.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Building construction"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Aerial construction"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=900&h=500&fit=crop" alt="Road construction"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&fit=crop" alt="Excavator working"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Construction machinery"></div>
+      <!-- duplicate for seamless -->
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Excavator bucket"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/2097426/pexels-photo-2097426.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Construction site"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/159358/construction-site-build-construction-work-159358.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Building construction"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Aerial construction"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=900&h=500&fit=crop" alt="Road construction"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&fit=crop" alt="Excavator working"></div>
+      <div class="img-m-item"><img src="https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Construction machinery"></div>
+    </div>
+  </div>
+
+  <!-- §7 FEATURE SPLIT: Gravel Pits -->
+  <div class="feat-split">
+    <div class="fp-img rvl">
+      <img src="https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&fit=crop" alt="Excavator at gravel pit">
+    </div>
+    <div class="fp-txt rvr">
+      <div class="stag">Aggregate Supply</div>
+      <h2 class="sh2" style="font-size:clamp(32px,4vw,62px)">Two Licensed <em>Gravel Pits</em></h2>
+      <p style="margin-top:20px;font-size:16px;color:var(--lg);line-height:1.75">Blake Construction operates <strong style="color:var(--white)">two licensed gravel pits</strong> in Northumberland County, providing direct access to high-quality aggregates at competitive prices — with fast delivery to your job site.</p>
+      <ul>
+        <li>Crushed gravel (multiple grades)</li>
+        <li>Clear stone &amp; drainage aggregate</li>
+        <li>Screened &amp; unscreened topsoil</li>
+        <li>Sand &amp; screenings</li>
+        <li>Armour stone &amp; boulders</li>
+        <li>Bulk delivery or customer pickup</li>
+      </ul>
+      <div style="margin-top:28px"><a href="#" class="btn-g" onclick="goPage('gravel');return false">Explore Our Pits →</a></div>
+    </div>
+  </div>
+
+  <!-- §8 HOW WE WORK -->
+  <section id="proc-sec" class="sec">
+    <div class="stag rv">Our Process</div>
+    <h2 class="sh2 rv">How We <em>Work</em></h2>
+    <div class="proc-steps">
+      <div class="step rv" style="transition-delay:.0s"><div class="step-num">01</div><div class="step-title">Free Consultation</div><p>We visit your site, assess your needs, and provide a clear, honest quote — no surprises, no hidden fees.</p></div>
+      <div class="step rv" style="transition-delay:.1s"><div class="step-num">02</div><div class="step-title">Planning &amp; Permits</div><p>We handle all necessary permits, designs, and scheduling before a single shovel hits the ground.</p></div>
+      <div class="step rv" style="transition-delay:.2s"><div class="step-num">03</div><div class="step-title">Expert Execution</div><p>Our licensed operators and modern fleet get the job done efficiently, safely, and with precision.</p></div>
+      <div class="step rv" style="transition-delay:.3s"><div class="step-num">04</div><div class="step-title">Clean Completion</div><p>We leave your site clean, graded, and ready. Final walkthrough ensures you're completely satisfied.</p></div>
+    </div>
+  </section>
+
+  <!-- §9 TRUST QUOTE -->
+  <div class="trust-band rv">
+    <div class="trust-quote">"We have been serving Northumberland County for over <em>30 years</em> — not because we advertise the most, but because our <em>work speaks</em> for itself."</div>
+    <div class="trust-attr">— Blake Construction Services Ltd.</div>
+  </div>
+
+  <!-- §10 PARALLAX CTA -->
+  <div class="pb-cta">
+    <div class="pb-cta-bg" style="background-image:url('https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop')"></div>
+    <div class="pb-cta-body rv">
+      <h3>READY TO START YOUR PROJECT?</h3>
+      <p>Family-owned. Fully licensed. Over 30 years of trust in Northumberland County.</p>
+      <a href="#" class="btn-g" onclick="goPage('contact');return false">Get a Free Quote</a>
+    </div>
+  </div>
+
+  <!-- §11 GALLERY TEASER -->
+  <section id="gal-sec" class="sec">
+    <div class="stag rv">Portfolio</div>
+    <h2 class="sh2 rv">Recent <em>Work</em></h2>
+    <div class="gal-grid" style="margin-top:44px">
+      <div class="gi wide rv" onclick="openLB('https://images.pexels.com/photos/1078884/pexels-photo-1078884.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop')"><img src="https://images.pexels.com/photos/1078884/pexels-photo-1078884.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop" alt="Excavation work"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi rv" onclick="openLB('https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop')"><img src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Excavator close-up"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi rv" onclick="openLB('https://images.pexels.com/photos/2097426/pexels-photo-2097426.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop')"><img src="https://images.pexels.com/photos/2097426/pexels-photo-2097426.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Construction site"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi rv" onclick="openLB('https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop')"><img src="https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Aerial view"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi rv" onclick="openLB('https://images.pexels.com/photos/159358/construction-site-build-construction-work-159358.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop')"><img src="https://images.pexels.com/photos/159358/construction-site-build-construction-work-159358.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Building work"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi rv" onclick="openLB('https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=900&h=500&fit=crop')"><img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=900&h=500&fit=crop" alt="Road grading"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+    </div>
+    <div style="text-align:center;margin-top:44px"><a href="#" class="btn-g" onclick="goPage('gallery');return false">Full Photo Gallery →</a></div>
+  </section>
+
+  <!-- §12 FEATURE SPLIT: Equipment -->
+  <div class="feat-split rev" style="background:var(--black)">
+    <div class="fp-img rvr">
+      <img src="https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Construction equipment fleet">
+    </div>
+    <div class="fp-txt rvl">
+      <div class="stag">Our Fleet</div>
+      <h2 class="sh2" style="font-size:clamp(32px,4vw,62px)">Modern <em>Equipment</em></h2>
+      <p style="margin-top:20px;font-size:16px;color:var(--lg);line-height:1.75">Our well-maintained, modern fleet of excavators, dump trucks, bulldozers, and compactors means we tackle any job efficiently — without delays or excuses.</p>
+      <ul>
+        <li>Large &amp; mini hydraulic excavators</li>
+        <li>Multiple dump trucks for haulage</li>
+        <li>Bulldozers for clearing &amp; grading</li>
+        <li>Skid steers &amp; compactors</li>
+      </ul>
+      <div style="margin-top:28px"><a href="#" class="btn-o" onclick="goPage('equipment');return false">See Our Equipment →</a></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="ft-top">
+      <div class="ft-brand">
+        <div class="ft-brand-n">BLAKE CONSTRUCTION</div>
+        <p>Family-owned excavating and construction services proudly serving Northumberland County for over 30 years.</p>
+        <div class="soc-row" style="margin-top:20px">
+          <a href="https://www.facebook.com/people/Blake-Construction-Services/100057426939885/" target="_blank" class="soc-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="https://maps.app.goo.gl/AXWBqEdvDc2HGEsv9" target="_blank" class="soc-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></a>
+        </div>
+      </div>
+      <div class="ft-col"><h4>Services</h4><ul><li><a href="#" onclick="goPage('services');return false">Excavating</a></li><li><a href="#" onclick="goPage('services');return false">Septic Systems</a></li><li><a href="#" onclick="goPage('services');return false">Armour Stone</a></li><li><a href="#" onclick="goPage('services');return false">Driveways</a></li><li><a href="#" onclick="goPage('services');return false">Waterproofing</a></li><li><a href="#" onclick="goPage('services');return false">Demolition</a></li></ul></div>
+      <div class="ft-col"><h4>Company</h4><ul><li><a href="#" onclick="goPage('about');return false">About Us</a></li><li><a href="#" onclick="goPage('gallery');return false">Our Work</a></li><li><a href="#" onclick="goPage('equipment');return false">Equipment</a></li><li><a href="#" onclick="goPage('gravel');return false">Gravel Pits</a></li><li><a href="#" onclick="goPage('contact');return false">Contact</a></li></ul></div>
+      <div class="ft-col"><h4>Find Us</h4><ul><li><a href="https://maps.app.goo.gl/AXWBqEdvDc2HGEsv9" target="_blank">Google Maps →</a></li><li><a href="https://www.facebook.com/people/Blake-Construction-Services/100057426939885/" target="_blank">Facebook →</a></li><li><a href="#" onclick="goPage('contact');return false">Request Quote →</a></li></ul></div>
+    </div>
+    <div class="ft-bot">
+      <div class="ft-copy">© 2026 <span>Blake Construction Services Ltd.</span> · All Rights Reserved.</div>
+      <div class="ft-copy">Northumberland County, Ontario</div>
+    </div>
+  </footer>
+</div><!-- /page-home -->
+
+<!-- ═══ ABOUT PAGE ═══ -->
+<div class="page" id="page-about">
+  <div style="height:80px;background:var(--black)"></div>
+  <section class="sec" style="background:var(--black)">
+    <div class="stag rv">Our Story</div>
+    <h2 class="sh2 rv">Family. <em>Dedication.</em> Results.</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:60px;align-items:center" class="rg2">
+      <div class="rvl"><img src="https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Construction overview" style="width:100%"></div>
+      <div class="rvr">
+        <p style="font-size:18px;line-height:1.8;color:var(--lg);margin-bottom:18px">Blake Construction Services Ltd. was founded on the principles of <strong style="color:var(--white)">hard work, honest pricing, and craftsmanship</strong> that stands the test of time.</p>
+        <p style="font-size:15px;line-height:1.8;color:var(--grey);margin-bottom:18px">For over 30 years, our family has been the trusted excavating partner for homeowners, contractors, and developers throughout Northumberland County.</p>
+        <p style="font-size:15px;line-height:1.8;color:var(--grey);margin-bottom:28px">We own and operate two licensed gravel pits, giving us direct supply of the aggregates our clients need at competitive prices with fast delivery.</p>
+        <div class="as-tags">
+          <span class="as-tag">30+ Years Operating</span><span class="as-tag">Family Owned</span>
+          <span class="as-tag">Licensed Septic</span><span class="as-tag">2 Gravel Pits</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="counters rv">
+    <div><div class="cnt-n">30<sup>+</sup></div><div class="cnt-l">Years Experience</div></div>
+    <div><div class="cnt-n">2</div><div class="cnt-l">Gravel Pits</div></div>
+    <div><div class="cnt-n">500<sup>+</sup></div><div class="cnt-l">Projects Done</div></div>
+    <div><div class="cnt-n">100<sup>%</sup></div><div class="cnt-l">Family Values</div></div>
+  </div>
+  <section class="sec" style="background:var(--dark)">
+    <div class="stag rv">Our Values</div>
+    <h2 class="sh2 rv">How We <em>Work</em></h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:50px" class="rg3">
+      <div class="svc-card rv"><div class="svc-num">★</div><div class="svc-title">Quality First</div><p>Every project receives the same care, whether it's a small repair or a major excavation.</p></div>
+      <div class="svc-card rv" style="transition-delay:.1s"><div class="svc-num">🤝</div><div class="svc-title">Honest Pricing</div><p>Clear upfront quotes with no hidden fees. We price our work fairly and stand behind it.</p></div>
+      <div class="svc-card rv" style="transition-delay:.2s"><div class="svc-num">📞</div><div class="svc-title">Always Responsive</div><p>You speak directly with the people on your job site. No runaround, no delays.</p></div>
+    </div>
+  </section>
+  <footer><div class="ft-bot"><div class="ft-copy">© 2026 <span>Blake Construction Services Ltd.</span></div><a href="#" onclick="goPage('contact');return false" class="btn-g">Get a Quote</a></div></footer>
+  <style>.rg2,.rg3{} @media(max-width:768px){.rg2{grid-template-columns:1fr!important}.rg3{grid-template-columns:1fr!important}}</style>
+</div>
+
+<!-- ═══ SERVICES PAGE ═══ -->
+<div class="page" id="page-services">
+  <div style="height:80px;background:var(--black)"></div>
+  <section class="sec" style="background:var(--black)">
+    <div class="stag rv">What We Offer</div>
+    <h2 class="sh2 rv">Full-Service <em>Construction</em></h2>
+    <p style="margin-top:18px;max-width:580px;color:var(--grey);font-size:16px;line-height:1.7" class="rv">From initial excavation to final grade, we offer a comprehensive range of services for residential and commercial clients across Northumberland County.</p>
+    <div class="svc-grid" style="margin-top:54px">
+      <div class="svc-card tilt rv" style="transition-delay:.00s"><div class="svc-num">01</div><div class="svc-title">Full Service Excavating</div><p>Site preparation, basement excavation, and full-scale earthworks for projects of all sizes.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.06s"><div class="svc-num">02</div><div class="svc-title">Septic Systems</div><p>Licensed septic design, installation, and repair. Permits, drawings, and complete installation.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.12s"><div class="svc-num">03</div><div class="svc-title">Final Grade &amp; Landscaping</div><p>Finished grade work and complete landscape design and build after construction.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.18s"><div class="svc-num">04</div><div class="svc-title">New House Construction</div><p>Full excavation and site prep for residential builds — garages, basements, foundations.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.24s"><div class="svc-num">05</div><div class="svc-title">Water &amp; Sewer Repairs</div><p>Repair and replacement of water and sewer lines with minimal site disruption.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.30s"><div class="svc-num">06</div><div class="svc-title">Driveways &amp; Trenching</div><p>New entrances, driveway construction, and trenching for utilities. Professional results that last.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.36s"><div class="svc-num">07</div><div class="svc-title">Waterproofing</div><p>Foundation waterproofing using proven techniques to keep water out permanently.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.42s"><div class="svc-num">08</div><div class="svc-title">Armour Stone</div><p>Retaining walls, decorative steps, and garden features built with premium armour stone.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.48s"><div class="svc-num">09</div><div class="svc-title">Demolition</div><p>Safe, efficient demolition for structures of all sizes with full site cleanup and removal.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.54s"><div class="svc-num">10</div><div class="svc-title">Topsoil &amp; Aggregates</div><p>Topsoil, mulch, and aggregate supply and delivery from our own licensed gravel pits.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.60s"><div class="svc-num">11</div><div class="svc-title">Haulage &amp; Truck Rental</div><p>Bulk haulage and truck rental for contractors, developers, and homeowners in the county.</p></div>
+      <div class="svc-card tilt rv" style="transition-delay:.66s"><div class="svc-num">12</div><div class="svc-title">Landscape Design &amp; Build</div><p>Complete landscape design and installation from concept to completed outdoor spaces.</p></div>
+    </div>
+  </section>
+  <div class="pb-cta"><div class="pb-cta-bg" style="background-image:url('https://images.pexels.com/photos/1078884/pexels-photo-1078884.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop')"></div><div class="pb-cta-body rv"><h3>LET'S TALK ABOUT YOUR PROJECT</h3><a href="#" class="btn-g" onclick="goPage('contact');return false">Request a Quote →</a></div></div>
+  <footer><div class="ft-bot"><div class="ft-copy">© 2026 <span>Blake Construction Services Ltd.</span></div></div></footer>
+</div>
+
+<!-- ═══ GALLERY PAGE ═══ -->
+<div class="page" id="page-gallery">
+  <div style="height:80px;background:var(--black)"></div>
+  <section class="sec" style="background:var(--black)">
+    <div class="stag rv">Portfolio</div>
+    <h2 class="sh2 rv">Our <em>Work</em></h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:36px 0 28px" id="gfil">
+      <button class="btn-g" style="font-size:11px;padding:9px 18px;clip-path:none" onclick="gf('all',this)">All</button>
+      <button class="btn-o" style="font-size:11px;padding:8px 18px" onclick="gf('excavating',this)">Excavating</button>
+      <button class="btn-o" style="font-size:11px;padding:8px 18px" onclick="gf('armour',this)">Armour Stone</button>
+      <button class="btn-o" style="font-size:11px;padding:8px 18px" onclick="gf('grading',this)">Grading</button>
+      <button class="btn-o" style="font-size:11px;padding:8px 18px" onclick="gf('equipment',this)">Equipment</button>
+    </div>
+    <div class="gal-grid" id="galMain">
+      <div class="gi wide" data-cat="equipment" onclick="openLB(this.querySelector('img').src)"><img src="https://images.pexels.com/photos/1078884/pexels-photo-1078884.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop" alt="Excavator on site"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi" data-cat="excavating" onclick="openLB(this.querySelector('img').src)"><img src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Excavation"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi" data-cat="grading" onclick="openLB(this.querySelector('img').src)"><img src="https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Aerial grading"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi" data-cat="armour" onclick="openLB(this.querySelector('img').src)"><img src="https://images.pexels.com/photos/2097426/pexels-photo-2097426.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Stone work"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi" data-cat="excavating" onclick="openLB(this.querySelector('img').src)"><img src="https://images.pexels.com/photos/159358/construction-site-build-construction-work-159358.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Building work"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi wide" data-cat="grading" onclick="openLB(this.querySelector('img').src)"><img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=900&h=500&fit=crop" alt="Road and grading"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi" data-cat="equipment" onclick="openLB(this.querySelector('img').src)"><img src="https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&fit=crop" alt="Excavator working"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi" data-cat="excavating" onclick="openLB(this.querySelector('img').src)"><img src="https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Construction machinery"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi" data-cat="armour" onclick="openLB(this.querySelector('img').src)"><img src="https://images.pexels.com/photos/2097426/pexels-photo-2097426.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Detail work"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+      <div class="gi" data-cat="grading" onclick="openLB(this.querySelector('img').src)"><img src="https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Site overview"><div class="gi-ov"><div class="gi-zo">+</div></div></div>
+    </div>
+  </section>
+  <footer><div class="ft-bot"><div class="ft-copy">© 2026 <span>Blake Construction Services Ltd.</span></div></div></footer>
+</div>
+
+<!-- ═══ BEFORE/AFTER PAGE ═══ -->
+<div class="page" id="page-beforeafter">
+  <div style="height:80px;background:var(--dark)"></div>
+  <section class="sec" style="background:var(--dark)">
+    <div class="stag rv">Transformations</div>
+    <h2 class="sh2 rv">Before <em>&amp;</em> After</h2>
+    <p style="margin-top:14px;color:var(--grey);max-width:540px" class="rv">Drag the handle left or right to compare. Real results from real projects in Northumberland County.</p>
+    <div class="ba-grid">
+      <div class="ba-card rv">
+        <div class="ba-wrap" data-sl>
+          <div class="ba-after"><img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=900&h=500&fit=crop" alt="After"></div>
+          <div class="ba-before"><img src="https://images.pexels.com/photos/2097426/pexels-photo-2097426.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Before" style="filter:sepia(.4) brightness(.82)"></div>
+          <div class="ba-div"></div><div class="ba-hdl">⟺</div>
+          <div class="ba-lbl"><span class="ba-b">BEFORE</span><span class="ba-a">AFTER</span></div>
+        </div>
+        <div class="ba-cap">Driveway grading and armour stone retaining wall installation</div>
+      </div>
+      <div class="ba-card rv" style="transition-delay:.1s">
+        <div class="ba-wrap" data-sl>
+          <div class="ba-after"><img src="https://images.pexels.com/photos/1078884/pexels-photo-1078884.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop" alt="After"></div>
+          <div class="ba-before"><img src="https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Before" style="filter:sepia(.4) brightness(.82)"></div>
+          <div class="ba-div"></div><div class="ba-hdl">⟺</div>
+          <div class="ba-lbl"><span class="ba-b">BEFORE</span><span class="ba-a">AFTER</span></div>
+        </div>
+        <div class="ba-cap">Site excavation and final grade landscaping completion</div>
+      </div>
+      <div class="ba-card rv" style="transition-delay:.2s">
+        <div class="ba-wrap" data-sl>
+          <div class="ba-after"><img src="https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&fit=crop" alt="After"></div>
+          <div class="ba-before"><img src="https://images.pexels.com/photos/159358/construction-site-build-construction-work-159358.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Before" style="filter:sepia(.4) brightness(.82)"></div>
+          <div class="ba-div"></div><div class="ba-hdl">⟺</div>
+          <div class="ba-lbl"><span class="ba-b">BEFORE</span><span class="ba-a">AFTER</span></div>
+        </div>
+        <div class="ba-cap">Property clearing and new driveway entrance construction</div>
+      </div>
+      <div class="ba-card rv" style="transition-delay:.3s">
+        <div class="ba-wrap" data-sl>
+          <div class="ba-after"><img src="https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="After"></div>
+          <div class="ba-before"><img src="https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Before" style="filter:sepia(.4) brightness(.82)"></div>
+          <div class="ba-div"></div><div class="ba-hdl">⟺</div>
+          <div class="ba-lbl"><span class="ba-b">BEFORE</span><span class="ba-a">AFTER</span></div>
+        </div>
+        <div class="ba-cap">Foundation waterproofing and drainage system installation</div>
+      </div>
+    </div>
+  </section>
+  <footer><div class="ft-bot"><div class="ft-copy">© 2026 <span>Blake Construction Services Ltd.</span></div></div></footer>
+</div>
+
+<!-- ═══ EQUIPMENT PAGE ═══ -->
+<div class="page" id="page-equipment">
+  <div style="height:80px;background:var(--black)"></div>
+  <section class="sec" style="background:var(--black)">
+    <div class="stag rv">Our Fleet</div>
+    <h2 class="sh2 rv">Heavy <em>Equipment</em></h2>
+    <p style="margin-top:14px;max-width:540px;color:var(--grey)" class="rv">Modern, well-maintained machines operated by experienced professionals — ready for any job.</p>
+    <div class="eq-grid">
+      <div class="eq-card rv"><div class="eq-card-img"><img src="https://images.pexels.com/photos/1078884/pexels-photo-1078884.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop" alt="Large Excavator"></div><div class="eq-card-body"><div class="eq-name">Large Excavator</div><div class="eq-desc">Full-size hydraulic excavator for major earthmoving, basement excavation, and large-scale projects.</div></div></div>
+      <div class="eq-card rv" style="transition-delay:.1s"><div class="eq-card-img"><img src="https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&fit=crop" alt="Mini Excavator"></div><div class="eq-card-body"><div class="eq-name">Mini Excavator</div><div class="eq-desc">Compact machine for tight residential spaces, trenching, and precision landscaping.</div></div></div>
+      <div class="eq-card rv" style="transition-delay:.2s"><div class="eq-card-img"><img src="https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Dump Trucks"></div><div class="eq-card-body"><div class="eq-name">Dump Trucks</div><div class="eq-desc">Multiple dump trucks for material hauling, aggregate delivery, and site cleanup.</div></div></div>
+      <div class="eq-card rv" style="transition-delay:.3s"><div class="eq-card-img"><img src="https://images.pexels.com/photos/2097426/pexels-photo-2097426.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Bulldozer"></div><div class="eq-card-body"><div class="eq-name">Bulldozer</div><div class="eq-desc">Heavy pushing and clearing capability for land clearing, rough grading, and demolition.</div></div></div>
+      <div class="eq-card rv" style="transition-delay:.4s"><div class="eq-card-img"><img src="https://images.pexels.com/photos/159358/construction-site-build-construction-work-159358.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop" alt="Skid Steer"></div><div class="eq-card-body"><div class="eq-name">Skid Steer Loader</div><div class="eq-desc">Versatile machine for material handling, backfill, and a wide variety of jobsite attachments.</div></div></div>
+      <div class="eq-card rv" style="transition-delay:.5s"><div class="eq-card-img"><img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=900&h=500&fit=crop" alt="Compactor"></div><div class="eq-card-body"><div class="eq-name">Compactors &amp; Graders</div><div class="eq-desc">Precision soil compaction and grading equipment for driveways, roads, and finished surfaces.</div></div></div>
+    </div>
+  </section>
+  <footer><div class="ft-bot"><div class="ft-copy">© 2026 <span>Blake Construction Services Ltd.</span></div></div></footer>
+</div>
+
+<!-- ═══ GRAVEL PITS PAGE ═══ -->
+<div class="page" id="page-gravel">
+  <div style="height:80px;background:var(--black)"></div>
+  <section class="sec" style="background:var(--black)">
+    <div class="stag rv">Aggregate Supply</div>
+    <h2 class="sh2 rv">Licensed <em>Gravel Pits</em></h2>
+    <p style="margin-top:16px;max-width:600px;color:var(--grey);font-size:16px" class="rv">Two licensed gravel pits in Northumberland County — reliable, high-quality aggregates at competitive prices.</p>
+    <div class="gp-layout">
+      <div class="gp-card rvl"><div class="gp-img"><img src="https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&fit=crop" alt="Gravel Pit 1"></div><div class="gp-body"><div class="gp-name">Pit #1 — Northumberland</div><p>Our primary aggregate facility offering a wide selection of bulk materials for contractors, landscapers, and homeowners.</p><ul><li>Crushed gravel (various grades)</li><li>Clear stone</li><li>Sand &amp; screenings</li><li>Fill materials</li><li>Bulk delivery available</li></ul></div></div>
+      <div class="gp-card rvr"><div class="gp-img"><img src="https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Gravel Pit 2"></div><div class="gp-body"><div class="gp-name">Pit #2 — Northumberland</div><p>Our second licensed facility serving the eastern part of the county with competitive pricing and fast loading times.</p><ul><li>Screened &amp; unscreened topsoil</li><li>Armour stone &amp; boulders</li><li>Decorative aggregates</li><li>Drainage stone</li><li>Pickup or delivery</li></ul></div></div>
+    </div>
+    <div style="margin-top:54px;padding:42px;background:var(--card);border:1px solid rgba(200,146,42,.2)" class="rv">
+      <div class="stag">Order Aggregates</div>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:38px;margin-bottom:14px">Need Bulk Materials?</h3>
+      <p style="color:var(--grey);max-width:480px;margin-bottom:24px">Contact us for current pricing, availability, and delivery from our two licensed pits.</p>
+      <a href="#" class="btn-g" onclick="goPage('contact');return false">Contact for Pricing →</a>
+    </div>
+  </section>
+  <footer><div class="ft-bot"><div class="ft-copy">© 2026 <span>Blake Construction Services Ltd.</span></div></div></footer>
+</div>
+
+<!-- ═══ CONTACT PAGE ═══ -->
+<div class="page" id="page-contact">
+  <div style="height:80px;background:var(--black)"></div>
+  <section class="sec" style="background:var(--black)">
+    <div class="stag rv">Get In Touch</div>
+    <h2 class="sh2 rv">Let's <em>Talk</em></h2>
+    <div class="ct-layout">
+      <div class="rvl">
+        <div class="ct-info-item"><div class="ct-icon">📍</div><div><div class="ct-lbl">Location</div><div class="ct-val">Northumberland County, Ontario, Canada</div></div></div>
+        <div class="ct-info-item"><div class="ct-icon">🌐</div><div><div class="ct-lbl">Follow Us</div><div class="ct-val"><a href="https://www.facebook.com/people/Blake-Construction-Services/100057426939885/" target="_blank" style="color:var(--gold)">Facebook →</a></div></div></div>
+        <div class="ct-info-item"><div class="ct-icon">🗺️</div><div><div class="ct-lbl">Find Us</div><div class="ct-val"><a href="https://maps.app.goo.gl/AXWBqEdvDc2HGEsv9" target="_blank" style="color:var(--gold)">Open in Google Maps →</a></div></div></div>
+        <div class="ct-info-item"><div class="ct-icon">⏰</div><div><div class="ct-lbl">Service Area</div><div class="ct-val">Northumberland County &amp; surrounding areas</div></div></div>
+        <div class="soc-row">
+          <a href="https://www.facebook.com/people/Blake-Construction-Services/100057426939885/" target="_blank" class="soc-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="https://maps.app.goo.gl/AXWBqEdvDc2HGEsv9" target="_blank" class="soc-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></a>
+        </div>
+      </div>
+      <div class="rvr">
+        <div class="ct-form">
+          <div class="ct-2col"><input type="text" placeholder="First Name"><input type="text" placeholder="Last Name"></div>
+          <input type="email" placeholder="Email Address">
+          <input type="tel" placeholder="Phone Number">
+          <select><option value="">Service Needed...</option><option>Full Service Excavating</option><option>Septic System</option><option>Armour Stone</option><option>Driveway / Grading</option><option>Waterproofing</option><option>Demolition</option><option>Aggregate Supply</option><option>Haulage</option><option>Other</option></select>
+          <textarea placeholder="Tell us about your project..."></textarea>
+          <button class="btn-g" style="width:100%;justify-content:center;clip-path:none;border:none" onclick="submitForm(this)">Send Message →</button>
+        </div>
+      </div>
+    </div>
+    <div class="map-wrap rv">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d185552.87847027736!2d-78.0505!3d44.0435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d57a60b5ede8c3%3A0x3a22c2ee4cb7a56c!2sNorthumberland+County%2C+ON!5e0!3m2!1sen!2sca!4v1" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </section>
+  <footer>
+    <div class="ft-bot">
+      <div class="ft-copy">© 2026 <span>Blake Construction Services Ltd.</span> All Rights Reserved.</div>
+      <div class="ft-copy">Northumberland County, Ontario</div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function ar(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(ar)})();
+document.querySelectorAll('a,button,.svc-card,.gi,.eq-card,.gp-card,.ba-hdl,.img-m-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+});
+
+/* LOADER */
+const loader=document.getElementById('loader'),ldPct=document.getElementById('ldPct');
+let p=0;const pi=setInterval(()=>{p=Math.min(p+Math.random()*14,99);if(ldPct)ldPct.textContent=Math.floor(p)+'%';},140);
+window.addEventListener('load',()=>{clearInterval(pi);if(ldPct)ldPct.textContent='100%';setTimeout(()=>{loader.classList.add('out');setTimeout(()=>{loader.style.display='none';boot();},900);},600);});
+setTimeout(()=>{if(loader.style.display!=='none'){loader.classList.add('out');setTimeout(()=>{loader.style.display='none';boot();},900);}},3800);
+
+/* NAV */
+window.addEventListener('scroll',()=>document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50));
+
+/* MOBILE MENU */
+function toggleMob(){const m=document.getElementById('mobMenu'),h=document.getElementById('ham');m.classList.toggle('open');h.classList.toggle('open');}
+
+/* PAGES */
+function goPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  if(pg){pg.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});setTimeout(boot,120);}
+}
+
+/* PARALLAX */
+const hBg=document.getElementById('heroBg');
+window.addEventListener('scroll',()=>{if(hBg&&document.getElementById('page-home').classList.contains('active'))hBg.style.transform=`translateY(${window.scrollY*.28}px)`;});
+
+/* SCROLL REVEAL */
+function initReveal(){
+  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');obs.unobserve(x.target);}});},{threshold:.08,rootMargin:'0px 0px -36px 0px'});
+  document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>{if(!el.classList.contains('vis'))obs.observe(el);});
+}
+
+/* 3D TILT */
+function initTilt(){
+  document.querySelectorAll('.tilt').forEach(c=>{
+    if(c._t)return;c._t=true;
+    c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(600px) rotateY(${x*14}deg) rotateX(${-y*9}deg) scale(1.025)`;});
+    c.addEventListener('mouseleave',()=>{c.style.transform='perspective(600px) rotateY(0) rotateX(0) scale(1)';});
+  });
+}
+
+/* BEFORE/AFTER */
+function initSliders(){
+  document.querySelectorAll('[data-sl]').forEach(w=>{
+    if(w._si)return;w._si=true;
+    const bef=w.querySelector('.ba-before'),div=w.querySelector('.ba-div'),hdl=w.querySelector('.ba-hdl');
+    let drag=false;
+    const set=p=>{p=Math.max(4,Math.min(96,p));bef.style.clipPath=`inset(0 ${100-p}% 0 0)`;div.style.left=p+'%';hdl.style.left=p+'%';};
+    hdl.addEventListener('mousedown',()=>drag=true);hdl.addEventListener('touchstart',()=>drag=true,{passive:true});
+    window.addEventListener('mouseup',()=>drag=false);window.addEventListener('touchend',()=>drag=false);
+    window.addEventListener('mousemove',e=>{if(!drag)return;const r=w.getBoundingClientRect();set(((e.clientX-r.left)/r.width)*100);});
+    window.addEventListener('touchmove',e=>{if(!drag)return;const r=w.getBoundingClientRect();set(((e.touches[0].clientX-r.left)/r.width)*100);},{passive:true});
+  });
+}
+
+/* GALLERY FILTER */
+function gf(cat,btn){
+  document.querySelectorAll('#gfil button').forEach(b=>{b.className='btn-o';b.style.fontSize='11px';b.style.padding='8px 18px';});
+  btn.className='btn-g';btn.style.fontSize='11px';btn.style.padding='9px 18px';btn.style.clipPath='none';
+  document.querySelectorAll('#galMain .gi').forEach(item=>{item.style.display=(cat==='all'||item.dataset.cat===cat)?'':'none';});
+}
+
+/* LIGHTBOX */
+function openLB(src){document.getElementById('lb-img').src=src;document.getElementById('lb').classList.add('open');}
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.getElementById('lb').addEventListener('click',function(e){if(e.target===this)closeLB();});
+
+/* FORM */
+function submitForm(btn){btn.textContent='Sending...';btn.style.opacity='.7';setTimeout(()=>{btn.textContent='✓ Message Sent!';btn.style.background='#2a7a2a';btn.style.opacity='1';},1400);}
+
+/* BOOT */
+function boot(){initReveal();initTilt();initSliders();}
+document.addEventListener('DOMContentLoaded',boot);
+
+/* IMAGE FALLBACK */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('img').forEach(img=>{
+    img.addEventListener('error',function(){
+      this.style.cssText='background:linear-gradient(135deg,#1c1c1c,#2a2a2a);min-height:200px;display:block;width:100%';
+      this.removeAttribute('src');
+    });
+  });
+});
+</script>
+</body>
+</html>
